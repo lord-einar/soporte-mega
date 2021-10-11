@@ -1,41 +1,41 @@
-const express = require('express')
-const cors = require('cors')
+const express = require("express");
+const hbs = require('hbs')
+const cors = require("cors");
 
 class Server {
+  constructor() {
+    this.app = express();
+    this.port = process.env.PORT;
 
-    constructor() {
+    this.middlewares();
+    this.routes();
+  }
 
-        this.app = express()
-        this.port = process.env.PORT
+  middlewares() {
+    //CORS
+    this.app.use(cors());
 
-        this.middlewares();
-        this.routes();
+    //Lectura y parseo JSON
+    this.app.use(express.json());
 
+    //Handlebars
+    this.app.set("view engine", "hbs");
+    hbs.registerPartials(__dirname + "../views/partials");
 
-    }
+    //Establecer carpeta publica
+    this.app.use(express.static("public"));
+  }
 
-    middlewares() {
+  routes() {
+    this.app.use("/", require("../routes/home"));
+    // this.app.use("/api/usuarios", require("../routes/usuarios"));
+  }
 
-        //CORS
-        this.app.use(cors());
-
-        //Lectura y parseo JSON
-        this.app.use( express.json() )
-
-        //Establecer carpeta publica
-        this.app.use(express.static('public'))
-    }
-
-    routes() {
-        this.app.use('/api/usuarios', require('../routes/usuarios'))
-    }
-
-    listen() {
-        this.app.listen(this.port, () => {
-            console.log(`Example app listening at http://localhost:${this.port}`)
-        })
-    }
-
+  listen() {
+    this.app.listen(this.port, () => {
+      console.log(`Example app listening at http://localhost:${this.port}`);
+    });
+  }
 }
 
 module.exports = Server;

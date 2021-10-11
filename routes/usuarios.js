@@ -4,7 +4,6 @@ const { usuariosGET, usuariosPOST, usuariosPUT, usuariosDELETE } = require('../c
 const router = Router();
 
 
-
 router.get('/', usuariosGET)
 
 router.post('/', usuariosPOST)

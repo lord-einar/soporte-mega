@@ -8,7 +8,7 @@ const usuariosGET = (req, res = response) => {
     const query = req.query;
 
     res.json({
-        msg: 'Hola mundo - GET - Controller'
+        msg: 'Hola mundo - GET - Controller jaja'
     })
 }
 
