@@ -13,8 +13,8 @@ class Server {
     this.app = express();
     this.server = http.createServer(this.app);
     this.publisher = redis.createClient();
-    this.subscriber = redis.createClient();
-    this.subscriber.subscribe("canal1");
+    this.subscriberCanal1 = redis.createClient();
+    this.subscriberCanal1.subscribe("canal1");
     this.port = process.env.PORT;
 
     this.io = socketio(this.server, {
@@ -55,16 +55,18 @@ class Server {
 
   socket() {
 
-    this.subscriber.on("message", async (channel, message) => {
+    this.subscriberCanal1.on("message", (channel, message) => {
       console.log(channel, message);
       let sede = '192.168.150.45'
       let cmd = 'interrogate'
+
+      ejecutarComando(sede, cmd).then(d => {
+        this.io.emit("mensajes", d);
+
+      })
+      //  });
       
-      let resp = await ejecutarComando(sede, cmd, function(d){
-        console.log(d)
-      });
-      
-      console.log('resp', resp)
+      // console.log('resp', resp)
     })
 
     this.io.on("connection", (socket) => {

@@ -1,13 +1,15 @@
 const { response } = require("express");
 const { ejecutarComando } = require("./comandos");
 
-const homeGET = async (req, res = response) => {
+const homeGET = (req, res = response, ) => {
   const { sede, cmd } = req.params;
-  let resp = await ejecutarComando(sede, cmd, function(d){
-    console.log(d)
+
+  return ejecutarComando(sede, cmd, function(d){
+    console.log('3', d)
+    return d
   });
   
-  console.log(resp)
+  console.log('5', resp)
   // return resp
 };
 
